@@ -1,36 +1,47 @@
-import CategoryDirectory from './components/category-directory/category-directory.component';
+// import Home from './pages/home/home';
+import Navigation from './components/navigation/navigation';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const pages = import.meta.glob('./pages/**/*.jsx', { eager: true });
+
+const routes = [];
+for (const path of Object.keys(pages)){
+  const fileName = path.match(/\.\/pages\/(.*)\.jsx$/)?.[1];
+  if (!fileName) {
+    continue;
+  }
+
+  const normalizedPathName = fileName.includes('$') ? fileName.replace('$', ':') : fileName.replace(/\/index/, '');
+
+  routes.push({
+    path: fileName === 'index' ? '/' : `/${normalizedPathName.toLowerCase()}`,
+    Element: pages[path].default,
+    loader: pages[path]?.loader,
+    action: pages[path]?.action,
+    ErrorBoundary: pages[path]?.ErrorBoundary,
+  });
+};
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigation />,
+    children: routes.map(({ Element, ErrorBoundary, ...props }) => ({
+      ...props,
+      element: <Element />,
+      ...(ErrorBoundary && { errorElement: <ErrorBoundary /> }),
+    }))
+  },
+]);
 
 const App = () => {
-  const categories = [
-    {
-      id: 1,
-      title: 'hats',
-      imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-    },
-    {
-      id: 2,
-      title: 'jackets',
-      imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-    },
-    {
-      id: 3,
-      title: 'sneakers',
-      imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-    },
-    {
-      id: 4,
-      title: 'womens',
-      imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-    },
-    {
-      id: 5,
-      title: 'mens',
-      imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
-    },
-  ];
-
   return (
-    <CategoryDirectory categories={categories} />
+    <RouterProvider router={router} />
+    // <Routes>
+    //   <Route path='/' element={<Navigation />}>
+    //     <Route index element={<Home />} />
+    //   </Route>
+    // </Routes>
   )
 };
 
