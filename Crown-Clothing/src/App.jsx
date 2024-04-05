@@ -37,11 +37,6 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <RouterProvider router={router} />
-    // <Routes>
-    //   <Route path='/' element={<Navigation />}>
-    //     <Route index element={<Home />} />
-    //   </Route>
-    // </Routes>
   )
 };
 
