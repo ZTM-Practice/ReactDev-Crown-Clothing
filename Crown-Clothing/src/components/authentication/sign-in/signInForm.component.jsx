@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FormInput from "../ui/form-input/form-input.component";
-import Button from "../ui/button/button.component";
-import { signInWithGooglePopup, createUserDocFromAuth, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import FormInput from "../../ui/form-input/form-input.component";
+import Button from "../../ui/button/button.component";
+import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../../../utils/firebase/firebase.utils";
 import styles from "./style.module.scss";
 
 const defaultFormFields = {
@@ -18,8 +18,7 @@ const SignInForm = () => {
     };
 
     const signInWithGoogleUser = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocFromAuth(user);
+        await signInWithGooglePopup();
     }
 
     const handleChange = (e) => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { createAuthUserFromEmailAndPassword, createUserDocFromAuth } from "../../utils/firebase/firebase.utils";
-import FormInput from "../ui/form-input/form-input.component";
-import Button from "../ui/button/button.component";
+import { createAuthUserFromEmailAndPassword, createUserDocFromAuth } from "../../../utils/firebase/firebase.utils";
+import FormInput from "../../ui/form-input/form-input.component";
+import Button from "../../ui/button/button.component";
 import styles from "./style.module.scss";
 
 const defaultFormFields = {
@@ -33,7 +33,7 @@ const SignUpForm = () => {
         if (password !== confirmPassword) {
             alert('Password and Confirmed Password are not matching');
             return;
-        };
+        }
 
         try {
             const { user } = await createAuthUserFromEmailAndPassword(email, password);
