@@ -1,8 +1,23 @@
 import { initializeApp } from 'firebase/app';
 import { 
-  getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+  getAuth, 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged 
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { 
+  getFirestore, 
+  doc, 
+  getDoc, 
+  setDoc, 
+  collection, 
+  writeBatch, 
+  query, 
+  getDocs 
+} from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBHADpIn3bkd6n_5Yw5cPzLSdTg3npkueU",
@@ -20,10 +35,35 @@ provider.setCustomParameters({
   prompt: 'select_account',
 });
 
-export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+const auth = getAuth();
+const db = getFirestore();
 
-export const db = getFirestore();
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd, field) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object[field].toLowerCase());
+    batch.set(docRef, object)
+  });
+
+  await batch.commit();
+  console.log('Batch is committed');
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+  const categoryMap = querySnapshot.docs.reduce((accumulator, snapshot) => {
+    const { title, items } = snapshot.data();
+    accumulator[title.toLowerCase()] = items;
+    return accumulator;
+  }, {})
+
+  return categoryMap;
+}
 
 export const createUserDocFromAuth = async (userAuth, additionalData = {}) => {
   if (!userAuth) return;
@@ -61,6 +101,8 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const signOutUser = async () => {
   return await signOut(auth);

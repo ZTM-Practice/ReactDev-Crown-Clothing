@@ -20,7 +20,7 @@ for (const path of Object.keys(pages)){
     action: pages[path]?.action,
     ErrorBoundary: pages[path]?.ErrorBoundary,
   });
-};
+}
 
 const router = createBrowserRouter([
   {

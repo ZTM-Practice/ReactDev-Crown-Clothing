@@ -3,8 +3,8 @@ import { Fragment, useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
 import { CartContext } from "../../contexts/cart.context"; 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
-import CartIcon from "../shop/cart-icon/cart-icon.component";
-import CartDropdownMenu from "../shop/cart-dropdown/cart-dropdown.component";
+import CartIcon from "../cart/cart-icon/cart-icon.component";
+import CartDropdownMenu from "../cart/cart-dropdown/cart-dropdown.component";
 import CrwnLogo from '../../../public/crown.svg?react';
 import styles from './style.module.scss';
 
