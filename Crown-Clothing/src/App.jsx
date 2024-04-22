@@ -1,4 +1,7 @@
-// import Home from './pages/home/home';
+import { useEffect } from 'react';
+import { onAuthStateChangedListener, createUserDocFromAuth } from './utils/firebase/firebase.utils';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from './store/user/user.action.js'; 
 import Navigation from './components/navigation/navigation';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -35,6 +38,19 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user) => {
+        if (user) {
+            createUserDocFromAuth(user);
+        }
+        dispatch(setCurrentUser(user));
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <RouterProvider router={router} />
   )
