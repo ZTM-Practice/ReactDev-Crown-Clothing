@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { onAuthStateChangedListener, createUserDocFromAuth, getCategoriesAndDocuments } from './utils/firebase/firebase.utils';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from './store/user/user.action.js'; 
-import { setCategories } from './store/categories/category.action.js';
+import { checkUserSession } from './store/user/user.action.js'; 
+import { fetchCategoriesStart } from './store/categories/category.action.js';
 import Navigation from './components/navigation/navigation';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -42,21 +41,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-        if (user) {
-            createUserDocFromAuth(user);
-        }
-        dispatch(setCurrentUser(user));
-    });
-
-    const getCategoriesMap = async () => {
-      const categoryArray = await getCategoriesAndDocuments();
-      dispatch(setCategories(categoryArray));
-    };
-
-    getCategoriesMap();
-
-    return unsubscribe;
+    dispatch(checkUserSession());
+    dispatch(fetchCategoriesStart());
   }, []);
 
   return (

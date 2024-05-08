@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCartCount, selectShowCartMenu } from '../../../store/cart/cart.selector';
 import { setShowCartMenu } from '../../../store/cart/cart.action';
-import ShoppingBagIcon from '../../../../public/shopping-bag.svg?react';
+import ShoppingBagIcon from '../../../public/shopping-bag.svg?react';
 import styles from './style.module.scss';
 
 const CartIcon = () => {
