@@ -1,5 +1,5 @@
-import { Outlet, Link } from "react-router-dom";
-import { Fragment } from "react";
+import { Outlet, Link, ScrollRestoration } from "react-router-dom";
+import { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutStart } from "../../store/user/user.action";
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -14,10 +14,15 @@ const Navigation = () => {
     const showCartMenu = useSelector(selectShowCartMenu);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, [showCartMenu]);
+
     const handleSignOut = () => dispatch(signOutStart())
 
     return (
         <Fragment>
+            <ScrollRestoration />
             <div className={styles.navigation}>
                 <Link className={styles.logoContainer} to="/">
                     <CrwnLogo className="logo" />

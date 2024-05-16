@@ -1,0 +1,19 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "McKees Rocks",
+			"country": {
+				"code": "US",
+				"name": "United States"
+			},
+			"subdivision": {
+				"code": "PA",
+				"name": "Pennsylvania"
+			},
+			"timezone": "America/New_York",
+			"latitude": 40.4688,
+			"longitude": -80.0872
+		},
+		"timestamp": 1715877954080
+	}
+}
