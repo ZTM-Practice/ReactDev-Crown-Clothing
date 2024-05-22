@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { checkUserSession } from './store/user/user.action.js'; 
 import { fetchCategoriesStart } from './store/categories/category.action.js';
-import Navigation from './components/navigation/navigation';
+import Navigation from './components/navigation/navigation.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const pages = import.meta.glob('./pages/**/*.jsx', { eager: true });
