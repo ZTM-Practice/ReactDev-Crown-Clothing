@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { onSignUpStart } from "../../../store/user/user.saga";
 import FormInput from "../../ui/form-input/form-input.component";
@@ -22,7 +22,7 @@ const SignUpForm = () => {
         setFormFields(defaultFormFields);
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormFields({
             ...formFields,
@@ -30,7 +30,7 @@ const SignUpForm = () => {
         });
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {

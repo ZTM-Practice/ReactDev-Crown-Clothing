@@ -6,8 +6,12 @@ import ProductCard from "../../../components/shop/product-card/product-card.comp
 import LoadingSpinner from "../../../components/ui/loading-spinner/loading-spinner.component";
 import styles from "./style.module.scss";
 
+type CategoryRouteParams = {
+    category: string;
+};
+
 const Category = () => {
-    const { category } = useParams();
+    const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
     const categoriesMap = useSelector(selectCategoriesMap);
     const categoriesIsLoading = useSelector(selectCategoriesIsLoading);
     const [products, setProducts] = useState(categoriesMap[category]);

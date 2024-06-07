@@ -1,3 +1,4 @@
+/// <reference types="vite-plugin-svgr/client" />
 import { Outlet, Link, ScrollRestoration } from "react-router-dom";
 import { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";

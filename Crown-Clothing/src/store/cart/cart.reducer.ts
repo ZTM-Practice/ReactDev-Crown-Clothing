@@ -6,8 +6,8 @@ import {
 } from "./cart.action";
 
 export type CartState = {
-    showCartMenu: boolean;
-    cartItems: CartItem[];
+    readonly showCartMenu: boolean;
+    readonly cartItems: CartItem[];
 }
 
 const INITIAL_STATE: CartState = {

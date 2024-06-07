@@ -1,7 +1,17 @@
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './style.module.scss';
 
-const CategoryItem = ({ category }) => {
+type CategoryItemProps = {
+  category: {
+    id: number;
+    title: string;
+    imageUrl: string;
+    route: string;
+  };
+};
+
+const CategoryItem: FC<CategoryItemProps> = ({ category }) => {
     const { title, imageUrl, route } = category;
     const navigate = useNavigate();
 

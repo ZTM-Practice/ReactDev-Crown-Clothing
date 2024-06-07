@@ -1,6 +1,11 @@
+import { InputHTMLAttributes, FC } from 'react';
 import styles from './style.module.scss';
 
-const FormInput = ({ label, ...props }) => {
+type FormInputProps = {
+    label: string;
+} & InputHTMLAttributes<HTMLInputElement>;
+
+const FormInput: FC<FormInputProps> = ({ label, ...props }) => {
     return (
         <div className={styles.group}>
             <input
@@ -9,7 +14,7 @@ const FormInput = ({ label, ...props }) => {
             />
             {label && (
             <label
-                className={`${props.value.length ? styles.shrink : ''} ${styles.formInputLabel}`}
+                className={`${props.value && typeof props.value === 'string' && props.value.length ? styles.shrink : ''} ${styles.formInputLabel}`}
             >
                 {label}
             </label>)}

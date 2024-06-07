@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
+import { AuthError, AuthErrorCodes } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import FormInput from "../../ui/form-input/form-input.component";
-import Button from "../../ui/button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../../ui/button/button.component";
 import { googleSignInStart, emailSignInStart } from "../../../store/user/user.action";
 import styles from "./style.module.scss";
 
@@ -23,7 +24,7 @@ const SignInForm = () => {
         dispatch(googleSignInStart());
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormFields({
             ...formFields,
@@ -31,18 +32,18 @@ const SignInForm = () => {
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
             dispatch(emailSignInStart(email, password))
             resetFieldNames();
         } catch (error) {
-            switch (error.code) {
-                case 'auth/wrong-password':
+            switch ((error as AuthError).code) {
+                case AuthErrorCodes.INVALID_PASSWORD:
                   alert('incorrect password for email');
                   break;
-                case 'auth/user-not-found':
+                case AuthErrorCodes.USER_DELETED:
                   alert('no user associated with this email');
                   break;
                 default:
@@ -75,7 +76,7 @@ const SignInForm = () => {
                 />
                 <div className={styles.buttonsContainer}>
                     <Button type="submit">Sign In</Button>
-                    <Button buttonType={'google'} type="button" onClick={signInWithGoogleUser}>Google Sign In</Button>
+                    <Button buttonType={BUTTON_TYPE_CLASSES.google} type="button" onClick={signInWithGoogleUser}>Google Sign In</Button>
                 </div>     
             </form>
         </div>

@@ -1,15 +1,23 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { checkUserSession } from './store/user/user.action.js'; 
-import { fetchCategoriesStart } from './store/categories/category.action.js';
-import Navigation from './components/navigation/navigation.jsx';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { checkUserSession } from './store/user/user.action'; 
+import { fetchCategoriesStart } from './store/categories/category.action';
+import Navigation from './components/navigation/navigation';
+import { ActionFunction, createBrowserRouter, LoaderFunction, RouterProvider } from 'react-router-dom';
 
-const pages = import.meta.glob('./pages/**/*.jsx', { eager: true });
+type Page = {
+  path: string;
+  default: FC;
+  loader?: LoaderFunction;
+  action?: ActionFunction;
+  ErrorBoundary?: FC;
+}
+
+const pages: Record<string, Page> = import.meta.glob('./pages/**/*.tsx', { eager: true });
 
 const routes = [];
 for (const path of Object.keys(pages)){
-  const fileName = path.match(/\.\/pages\/(.*)\.jsx$/)?.[1];
+  const fileName = path.match(/\.\/pages\/(.*)\.tsx$/)?.[1];
   if (!fileName) {
     continue;
   }
@@ -24,7 +32,7 @@ for (const path of Object.keys(pages)){
     ErrorBoundary: pages[path]?.ErrorBoundary,
   });
 }
-
+console.log(routes)
 const router = createBrowserRouter([
   {
     path: '/',

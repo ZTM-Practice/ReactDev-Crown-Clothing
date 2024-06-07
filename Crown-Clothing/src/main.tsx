@@ -4,11 +4,11 @@ import App from './App.jsx'
 import { Provider } from 'react-redux';
 import { Elements } from '@stripe/react-stripe-js';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './store/store.js';
-import { stripePromise } from './utils/stripe/stripe.utils.js';
+import { store, persistor } from './store/store';
+import { stripePromise } from './utils/stripe/stripe.utils';
 import './index.scss'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
