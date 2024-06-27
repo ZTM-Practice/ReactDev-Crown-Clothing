@@ -12,15 +12,11 @@ export type ButtonProps = {
     isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button: FC<ButtonProps> = ({ children, buttonType, isLoading, ...props }) => {
-    let buttonTypeClass: string = '';
-    if(buttonType){
-        buttonTypeClass = BUTTON_TYPE_CLASSES[buttonType as keyof typeof BUTTON_TYPE_CLASSES]
-    }
+const Button: FC<ButtonProps> = ({ children, buttonType = null, isLoading, ...props }) => {
     return (
         <button
             {...props}
-            className={`${styles.buttonContainer} ${styles[buttonTypeClass]}`}
+            className={buttonType ? `${styles[buttonType]} ${styles.buttonContainer}` : `${styles.buttonContainer}`}
             disabled={isLoading}
         >
             {isLoading ? <ButtonLoadingSpinner /> : children}
